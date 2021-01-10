@@ -1,7 +1,7 @@
 # Laravel Mix PHP manifest
 
 
-![Node.js CI](https://github.com/hbgl/laravel-mix-php-manifest/workflows/Node.js%20CI/badge.svg) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/hbgl/laravel-mix-php-manifest/blob/main/LICENSE) [![npm version](https://img.shields.io/npm/v/money-money-money.svg)](https://www.npmjs.com/package/money-money-money)
+![Node.js CI](https://github.com/hbgl/laravel-mix-php-manifest/workflows/Node.js%20CI/badge.svg) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/hbgl/laravel-mix-php-manifest/blob/main/LICENSE)
 
 This Laravel Mix extension creates a PHP manifest file from the manifest JSON file. This has the advandage that you can include the file directly in your PHP code without having to parse a JSON file.
 
