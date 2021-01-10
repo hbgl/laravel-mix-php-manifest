@@ -3,7 +3,6 @@ const assert = require('chai').assert;
 const fs = require('fs');
 const path = require('path');
 const child_process = require('child_process');
-const { TIMEOUT } = require('dns');
 
 describe('php-manifest', function () {
 	this.timeout(30000);
@@ -54,6 +53,9 @@ function run_mix() {
 }
 
 function setup_webpack_mix_js(...many_options) {
+	if (many_options.length === 0) {
+		many_options.push({});
+	}
 	let js = `
 const mix = require('laravel-mix');
 require('../index');
