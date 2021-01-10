@@ -20,28 +20,55 @@ describe('php-manifest', function () {
 	});
 
 	it('puts manifest in relative dir', function () {
-		setup_webpack_mix_js({ dir: 'nested' });
+		setup_webpack_mix_js({ dirName: 'nested' });
 		run_mix();
 		const exists = fs.existsSync(path.join(__dirname, 'public', 'nested', 'mix-manifest.php'));
 		assert.isTrue(exists);
 	});
 
 	it('puts manifest in absolute dir', function () {
-		setup_webpack_mix_js({ dir: path.join(__dirname, 'public', 'nested') });
+		setup_webpack_mix_js({ dirName: path.join(__dirname, 'public', 'nested') });
 		run_mix();
 		const exists = fs.existsSync(path.join(__dirname, 'public', 'nested', 'mix-manifest.php'));
 		assert.isTrue(exists);
 	});
 
+	it('uses a different file name', function () {
+		setup_webpack_mix_js({ fileName: 'differently-named-manifest.php' });
+		run_mix();
+		const exists = fs.existsSync(path.join(__dirname, 'public', 'differently-named-manifest.php'));
+		assert.isTrue(exists);
+	});
+
+	it('uses a different file name and dir name', function () {
+		setup_webpack_mix_js({ dirName: 'nested', fileName: 'differently-named-manifest.php' });
+		run_mix();
+		const exists = fs.existsSync(path.join(__dirname, 'public', 'nested', 'differently-named-manifest.php'));
+		assert.isTrue(exists);
+	});
+
+	it('uses a different path', function () {
+		const manifest_path = path.join(__dirname, 'public', 'a', 'b', 'differently-named-manifest.php');
+		// Path should override dirName and fileName.
+		setup_webpack_mix_js({
+			path: manifest_path,
+			dirName: path.join('x', 'y'),
+			fileName: 'xy-manifest.php'
+		});
+		run_mix();
+		const exists = fs.existsSync(manifest_path);
+		assert.isTrue(exists);
+	});
+
 	it('deletes json manifest', function () {
-		setup_webpack_mix_js({ deleteJson: true });
+		setup_webpack_mix_js({ deleteJsonManifest: true });
 		run_mix();
 		const exists = fs.existsSync(path.join(__dirname, 'public', 'mix-manifest.json'));
 		assert.isFalse(exists);
 	});
 
 	it('allows options to be changed', function () {
-		setup_webpack_mix_js({ deleteJson: true }, { deleteJson: false });
+		setup_webpack_mix_js({ deleteJsonManifest: true }, { deleteJsonManifest: false });
 		run_mix();
 		const exists = fs.existsSync(path.join(__dirname, 'public', 'mix-manifest.json'));
 		assert.isTrue(exists);
