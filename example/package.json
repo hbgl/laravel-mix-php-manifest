@@ -1,0 +1,16 @@
+{
+  "name": "laravel-mix-php-manifest-example",
+  "version": "1.0.1",
+  "description": "A sample application showcasing the laravel-mix-php-manifest package.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "laravel-mix": "^6.0.9",
+    "laravel-mix-php-manifest": "^1.0.1",
+    "postcss": "^8.1.14"
+  }
+}
