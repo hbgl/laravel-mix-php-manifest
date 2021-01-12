@@ -1,6 +1,6 @@
 {
   "name": "laravel-mix-php-manifest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Laravel Mix extension that creates a PHP manifest file.",
   "main": "index.js",
   "scripts": {
