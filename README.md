@@ -38,5 +38,11 @@ Set full path of the PHP manifest file. Overrides `dirName` and `fileName`.
 ### **deleteJsonManifest** (boolean)
 Delete the JSON manifest file. Default: `false`.
 
+### **endOfLineSequence** (string)
+The end-of-line sequence used in the PHP manifest file. Default: `\n`.
+
+### **indentation** (string)
+The string used to indent entries in the PHP manifest file. Default: four spaces.
+
 ## License
 This library is licensed under the [MIT license](https://opensource.org/licenses/MIT).
