@@ -7,16 +7,34 @@ const config = {
     fileName: null,
     path: null,
     deleteJsonManifest: false,
+    indentation: '    ',
+    endOfLineSequence: '\n',
 };
 
-mix.extend('phpManifest', function (context, options) {
-    Object.assign(config, { enabled: true }, options);
-    mix.after(run);
-});
+let registered = false;
 
-function run() {
-    const { json_path, php_path } = get_paths();    
-    const php_code = build_php_manifest(Mix.manifest.manifest);
+class Plugin {
+    register(pluginConfig) {
+        // Registering the plugin multiple times will update the
+        // config but the plugin will only run once.
+        Object.assign(config, pluginConfig);
+
+        // Add after-callback once during registration so that other
+        // user-defined after-callbacks run after it.
+        if (!registered) {
+            mix.after(function () {
+                run(Mix.manifest);
+            });
+            registered = true;
+        }
+    }
+}
+
+mix.extend('phpManifest', new Plugin());
+
+function run(manifest) {
+    const { json_path, php_path } = get_paths(manifest);
+    const php_code = build_php_manifest(manifest.manifest);
     fs.ensureDirSync(path.dirname(php_path));
     fs.writeFileSync(php_path, php_code);
 
@@ -27,8 +45,8 @@ function run() {
     }
 }
 
-function get_paths() {
-    const json_path = Mix.manifest.path();
+function get_paths(manifest) {
+    const json_path = manifest.path();
     let php_path;
     if (config.path) {
         php_path = config.path;
@@ -54,16 +72,18 @@ function get_paths() {
     return { json_path, php_path };
 }
 
-function build_php_manifest(manifest) {
-    let php_code = '<?php\nreturn [\n';
-    for (let key in manifest) {
-        if (manifest.hasOwnProperty(key)) {
+function build_php_manifest(manifestEntries) {
+    const eol = config.endOfLineSequence;
+    const indent = config.indentation;
+    let php_code = `<?php${eol}return [${eol}`;
+    for (let key in manifestEntries) {
+        if (manifestEntries.hasOwnProperty(key)) {
             const esc_key = escape_single_quoted_php_string(key);
-            const esc_value = escape_single_quoted_php_string(manifest[key]);
-            php_code += '    \'' + esc_key + '\' => \'' + esc_value + '\',\n';
+            const esc_value = escape_single_quoted_php_string(manifestEntries[key]);
+            php_code += `${indent}'${esc_key}' => '${esc_value}',${eol}`;
         }
     }
-    php_code += '];\n';
+    php_code += `];${eol}`;
     return php_code;
 }
 

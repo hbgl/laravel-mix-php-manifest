@@ -73,6 +73,37 @@ describe('php-manifest', function () {
 		const exists = fs.existsSync(path.join(__dirname, 'public', 'mix-manifest.json'));
 		assert.isTrue(exists);
 	});
+
+	it('use different eol squence and indentation', function () {
+		setup_webpack_mix_js({ endOfLineSequence: '\r\n', indentation: '\t' });
+		run_mix();
+		const php_code = fs.readFileSync(path.join(__dirname, 'public', 'mix-manifest.php')).toString();
+		assert.equal(php_code, "<?php\r\nreturn [\r\n\t'/foo.js' => '/foo.js?id=ff59af8d768ee969a92a',\r\n];\r\n");
+	});
+
+	it('after callbacks registered after plugin will run after it', function () {
+		const mixJs = `
+const mix = require('laravel-mix');
+const fs = require('fs');
+require('../index');
+mix.setPublicPath('test/public');
+mix.copy('test/assets/foo.js', 'test/public/foo.js');
+mix.version(['test/public/foo.js']);
+const phpManifestPath = __dirname + '/public/mix-manifest.php';
+mix.after(function () {
+	if (fs.existsSync(phpManifestPath)) {
+		throw new Error('Expected PHP manifest to not exist yet.');
+	}
+});
+mix.phpManifest();
+mix.after(function () {
+	if (!fs.existsSync(phpManifestPath)) {
+		throw new Error('Expected PHP manifest to exist.');
+	}
+});\n`;
+		fs.writeFileSync(webpack_mix_js_path(), mixJs);
+		run_mix(); // Should not throw
+	});
 });
 
 function run_mix() {
