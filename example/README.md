@@ -31,7 +31,14 @@ require('laravel-mix-php-manifest'); // <--
 
 mix.setPublicPath('public');
 mix.version();
-mix.phpManifest(); // <--
+mix.phpManifest({
+    // dirName: 'somedir',
+    // fileName: 'mymanifest.php',
+    // path: '/full/path/to/mymanifest.php',
+    // deleteJsonManifest: true,
+    // endOfLineSequence: '\n',
+    // indentation: '    ',
+});
 
 mix.js('assets/sample.js', 'sample.js');
 ```
@@ -42,11 +49,21 @@ mix.js('assets/sample.js', 'sample.js');
 npx mix
 ```
 
+Outputs this PHP manifest file:
+
+_mix-manifest.php_
+```php
+<?php
+return [
+    '/sample.js' => '/sample.js?id=45e1156324c7d3576a75',
+];
+```
+
 ## 4. Use manifest
 
-Include the generated PHP manifest to access the contents.
+Include the generated PHP manifest in your script to access the contents.
 
-_some-php-file.php_
+_sample.php_
 ```php
 <?php
 
@@ -57,4 +74,18 @@ echo "------------------------------------------------\n";
 foreach ($manifest as $key => $entry) {
     echo "$key => $entry\n";
 }
+```
+
+Run the sample:
+
+```bash
+php sample.php
+```
+
+Outputs:
+
+```
+Manifest contents:
+------------------------------------------------
+/sample.js => /sample.js?id=45e1156324c7d3576a75
 ```

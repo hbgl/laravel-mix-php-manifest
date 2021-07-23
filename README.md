@@ -8,7 +8,7 @@ This Laravel Mix extension creates a PHP manifest file for your build. You can i
 ## Installation
 
 ```bash
-npm install laravel-mix-php-manifest
+npm install laravel-mix-php-manifest --save-dev
 ```
 
 ## Usage
@@ -20,6 +20,18 @@ require('laravel-mix-php-manifest');
 
 mix.version();
 mix.phpManifest({ /* options */ });
+
+mix.js('assets/sample.js', 'sample.js');
+```
+
+Generates this PHP manifest file:
+
+_mix-manifest.php_
+```php
+<?php
+return [
+    '/sample.js' => '/sample.js?id=45e1156324c7d3576a75',
+];
 ```
 
 See the [example](https://github.com/hbgl/laravel-mix-php-manifest/tree/main/example) for more information.
