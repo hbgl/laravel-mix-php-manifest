@@ -75,7 +75,7 @@ function get_paths(manifest) {
 function build_php_manifest(manifestEntries) {
     const eol = config.endOfLineSequence;
     const indent = config.indentation;
-    let php_code = `<?php${eol}return [${eol}`;
+    let php_code = `<?php${eol}${eol}return [${eol}`;
     for (let key in manifestEntries) {
         if (manifestEntries.hasOwnProperty(key)) {
             const esc_key = escape_single_quoted_php_string(key);

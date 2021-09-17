@@ -16,7 +16,7 @@ describe('php-manifest', function () {
 		setup_webpack_mix_js();
 		run_mix();
 		const php_code = fs.readFileSync(path.join(__dirname, 'public', 'mix-manifest.php')).toString();
-		assert.equal(php_code, "<?php\nreturn [\n    '/foo.js' => '/foo.js?id=ff59af8d768ee969a92a',\n];\n");
+		assert.equal(php_code, "<?php\n\nreturn [\n    '/foo.js' => '/foo.js?id=ff59af8d768ee969a92a',\n];\n");
 	});
 
 	it('puts manifest in relative dir', function () {
@@ -78,7 +78,7 @@ describe('php-manifest', function () {
 		setup_webpack_mix_js({ endOfLineSequence: '\r\n', indentation: '\t' });
 		run_mix();
 		const php_code = fs.readFileSync(path.join(__dirname, 'public', 'mix-manifest.php')).toString();
-		assert.equal(php_code, "<?php\r\nreturn [\r\n\t'/foo.js' => '/foo.js?id=ff59af8d768ee969a92a',\r\n];\r\n");
+		assert.equal(php_code, "<?php\r\n\r\nreturn [\r\n\t'/foo.js' => '/foo.js?id=ff59af8d768ee969a92a',\r\n];\r\n");
 	});
 
 	it('after callbacks registered after plugin will run after it', function () {

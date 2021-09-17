@@ -29,9 +29,11 @@ Generates this PHP manifest file:
 _mix-manifest.php_
 ```php
 <?php
+
 return [
     '/sample.js' => '/sample.js?id=45e1156324c7d3576a75',
 ];
+
 ```
 
 See the [example](https://github.com/hbgl/laravel-mix-php-manifest/tree/main/example) for more information.

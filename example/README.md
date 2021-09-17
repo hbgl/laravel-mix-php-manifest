@@ -54,9 +54,11 @@ Outputs this PHP manifest file:
 _mix-manifest.php_
 ```php
 <?php
+
 return [
     '/sample.js' => '/sample.js?id=45e1156324c7d3576a75',
 ];
+
 ```
 
 ## 4. Use manifest
